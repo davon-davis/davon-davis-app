@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Prepare frontend files for serving
-        run: cp -R frontend/dist/* backend/dist/
+        run: cp -R ./frontend/dist/* backend/dist/
 
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -82,5 +82,5 @@ jobs:
       # Assuming your frontend build directory is frontend/build
       - name: Deploy frontend to S3/CloudFront
         run: |
-          aws s3 sync frontend/dist/ s3://davon-bucket --delete
+          aws s3 sync ./frontend/dist/ s3://davon-bucket --delete
           aws cloudfront create-invalidation --distribution-id E3VPL28U4VRD9H --paths "/*"
