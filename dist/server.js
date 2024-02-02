@@ -5,15 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3003;
-app.use((0, cors_1.default)());
+// Configure CORS to accept requests from your frontend domain
+app.use((0, cors_1.default)({
+    origin: 'https://d642hegmyoch1.cloudfront.net' // Update this to your CloudFront domain or custom domain
+}));
 app.use(express_1.default.json());
-app.use(express_1.default.static(path_1.default.join(__dirname, '/frontend/dist')));
-app.get('*', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, '/frontend/dist', 'index.html'));
+// Define your API routes
+app.get('/api', (req, res) => {
+    res.json({ message: "Hello from the backend API!" });
 });
+// No need to serve static files here, so the express.static middleware is removed
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
