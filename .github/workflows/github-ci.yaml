@@ -39,7 +39,7 @@ jobs:
         working-directory: ./frontend
 
   deploy-to-aws:
-    needs: build-and-test
+    needs: build-frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
