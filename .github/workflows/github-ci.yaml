@@ -45,9 +45,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Prepare frontend files for serving
-        run: cp -R ./frontend/dist/* ./dist/
-
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
