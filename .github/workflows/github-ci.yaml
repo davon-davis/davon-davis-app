@@ -30,7 +30,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18.17'
       - name: Install frontend dependencies
         run: npm install
         working-directory: ./frontend
@@ -82,5 +82,5 @@ jobs:
       # Assuming your frontend build directory is frontend/build
       - name: Deploy frontend to S3/CloudFront
         run: |
-          aws s3 sync ./frontend/dist/ s3://davon-bucket --delete
+          aws s3 sync ./dist/ s3://davon-bucket --delete
           aws cloudfront create-invalidation --distribution-id E3VPL28U4VRD9H --paths "/*"
