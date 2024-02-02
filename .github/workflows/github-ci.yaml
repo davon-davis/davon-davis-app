@@ -17,10 +17,10 @@ jobs:
           node-version: '18.17'
       - name: Install backend dependencies
         run: npm install
-        working-directory: .
+        working-directory: ./
       - name: Build backend
         run: npm run build
-        working-directory: .
+        working-directory: ./
 
   build-frontend:
     runs-on: ubuntu-latest
