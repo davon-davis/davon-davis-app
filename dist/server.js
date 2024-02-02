@@ -13,8 +13,8 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 // Define your API routes
-app.get('/api', (req, res) => {
-    res.json({ message: "Hello from the backend API!" });
+app.get('/', (req, res) => {
+    res.json({ message: "Hello Davon!" });
 });
 // No need to serve static files here, so the express.static middleware is removed
 app.listen(PORT, () => {

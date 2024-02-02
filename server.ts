@@ -12,8 +12,8 @@ app.use(cors({
 app.use(express.json());
 
 // Define your API routes
-app.get('/api', (req: Request, res: Response) => {
-    res.json({ message: "Hello from the backend API!" });
+app.get('/', (req: Request, res: Response) => {
+    res.json({ message: "Hello Davon!" });
 });
 
 // No need to serve static files here, so the express.static middleware is removed
