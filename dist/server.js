@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3003;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.get('/', (req, res) => {
-    res.json({ message: "Hello Davon!" });
+    res.json({ message: "Hello Davon L Davis!" });
 });
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

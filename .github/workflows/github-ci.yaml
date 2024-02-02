@@ -19,7 +19,7 @@ jobs:
         run: npm install
         working-directory: ./
       - name: Build backend
-        run: npm run build
+        run: tsc
         working-directory: ./
 
   build-frontend:
@@ -38,12 +38,15 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-  deploy-to-aws:
+  deploy-backend-to-aws:
     needs: build-frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Prepare frontend files for serving
+        run: cp -R frontend/dist/* backend/dist/
 
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -62,3 +65,22 @@ jobs:
         run: |
           aws elasticbeanstalk create-application-version --application-name davon-app --version-label ${{ github.sha }} --source-bundle S3Bucket=davon-bucket,S3Key=application.zip
           aws elasticbeanstalk update-environment --application-name davon-app --environment-name Davon-app-env --version-label ${{ github.sha }}
+
+  deploy-frontend-to-s3:
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # Assuming your frontend build directory is frontend/build
+      - name: Deploy frontend to S3/CloudFront
+        run: |
+          aws s3 sync frontend/dist/ s3://davon-bucket --delete
+          aws cloudfront create-invalidation --distribution-id E3VPL28U4VRD9H --paths "/*"
