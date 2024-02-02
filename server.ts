@@ -7,7 +7,7 @@ const PORT: string | number = process.env.PORT || 3003;
 app.use(cors());
 app.use(express.json())
 
-app.get('/api', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
     res.json({ message: "Hello from server!" });
 });
 
