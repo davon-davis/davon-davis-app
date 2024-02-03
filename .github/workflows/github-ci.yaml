@@ -55,6 +55,9 @@ jobs:
       - name: Package application
         run: zip -r application.zip . -x "*.git*" -x "node_modules/*"
 
+      - name: Upload to S3
+        run: aws s3 cp application.zip s3://davon-bucket/application.zip
+
       - name: Deploy to Elastic Beanstalk
         run: |
           aws elasticbeanstalk create-application-version --application-name davon-app --version-label ${{ github.sha }} --source-bundle S3Bucket=davon-bucket,S3Key=application.zip
