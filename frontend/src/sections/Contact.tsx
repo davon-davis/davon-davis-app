@@ -8,14 +8,21 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import { Controller, useForm } from "react-hook-form";
 
 export const Contact = () => {
-  const [fromName, setFromName] = useState<string>("");
-  const [userEmail, setUserEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
-  const sendEmail = () => {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const sendEmail = (data: any) => {
+    const { fromName, userEmail, message } = data;
+
     const serviceID = "service_q594uaq";
     const templateID = "personal_contact_form";
     const userID = "xbkvfaJjamU7yIJOy";
@@ -28,12 +35,14 @@ export const Contact = () => {
 
     emailjs
       .send(serviceID, templateID, templateParams, userID)
-      .then((response) => {
-        console.log("Email sent successfully!", response.status, response.text);
+      .then(() => {
+        setIsSnackbarOpen(true);
       })
       .catch((err) => {
         console.error("Failed to send email.", err);
       });
+
+    reset();
   };
 
   return (
@@ -56,46 +65,81 @@ export const Contact = () => {
           Here you will find more information about me, what I do, and my
           current skills mostly in terms of programming and technology
         </Typography>
-        <Stack
-          gap={2}
-          style={{
-            boxShadow: "rgba(100,100,111,0.2) 0px 7px 29px 0px",
-            background: "white",
-            borderRadius: "5px",
-            padding: "2rem",
-          }}
-        >
-          <TextField
-            label="Full Name"
-            type="text"
-            id="name"
-            value={fromName}
-            onChange={(event) => setFromName(event.target.value)}
-          />
-          <TextField
-            label="Email"
-            type="text"
-            id="email"
-            value={userEmail}
-            onChange={(event) => setUserEmail(event.target.value)}
-          />
-          <TextField
-            label="Message"
-            type="text"
-            id="message"
-            multiline
-            rows={5}
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-          />
-          <Button
-            variant="contained"
-            style={{ width: "5rem", alignSelf: "end" }}
-            onClick={sendEmail}
+        <form onSubmit={handleSubmit(sendEmail)}>
+          <Stack
+            gap={2}
+            style={{
+              boxShadow: "rgba(100,100,111,0.2) 0px 7px 29px 0px",
+              background: "white",
+              borderRadius: "5px",
+              padding: "2rem",
+            }}
           >
-            Submit
-          </Button>
-        </Stack>
+            <Controller
+              name="fromName"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Full name is required" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Full Name"
+                  type="text"
+                  id="name"
+                  error={!!errors.fromName}
+                  helperText={
+                    errors.fromName ? String(errors.fromName!.message) : ""
+                  }
+                />
+              )}
+            />
+            <Controller
+              name="userEmail"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Email is required" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Email"
+                  type="text"
+                  id="email"
+                  error={!!errors.userEmail}
+                  helperText={
+                    errors.userEmail ? String(errors.userEmail!.message) : ""
+                  }
+                />
+              )}
+            />
+            <Controller
+              name="message"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Message is required" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Message"
+                  type="text"
+                  id="message"
+                  multiline
+                  rows={5}
+                  error={!!errors.message}
+                  helperText={
+                    errors.message ? String(errors.message!.message) : ""
+                  }
+                />
+              )}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              style={{ width: "5rem", alignSelf: "end" }}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </form>
       </Stack>
       <Snackbar
         open={isSnackbarOpen}
