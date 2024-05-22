@@ -1,66 +1,42 @@
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 
 export const Contact = () => {
   return (
     <Stack
       id="contactMeSection"
-      className={"flex flex-col px-20"}
       style={{
         height: "100vh",
-        padding: "7rem 0rem",
-        margin: "0 5rem",
+        // padding: "7rem 0rem",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
       <Typography
         variant="h4"
-        style={{ textAlign: "center", paddingBottom: "2rem" }}
+        style={{ textAlign: "center", marginBottom: "2rem" }}
       >
         CONTACT
       </Typography>
-      <Typography style={{ textAlign: "center" }}>
+      <Typography style={{ textAlign: "center", paddingBottom: "4rem" }}>
         Here you will find more information about me, what I do, and my current
         skills mostly in terms of programming and technology
       </Typography>
-      <div
+      <Stack
+        gap={2}
         style={{
           boxShadow: "rgba(100,100,111,0.2) 0px 7px 29px 0px",
           background: "white",
-          padding: "2rem",
-          marginTop: "1rem",
-          maxWidth: "80rem",
-          textAlign: "right",
-          width: "70vw",
           borderRadius: "5px",
-          margin: "5rem auto 0 auto",
+          padding: "2rem",
         }}
       >
-        <div className={"mb-4"}>
-          <label className={"contact__form-label"}>Name</label>
-          <input
-            placeholder="Enter Your Name"
-            type="text"
-            className="contact__form-input"
-            name="name"
-            id="name"
-          />
-          <label className={"contact__form-label"}>Name</label>
-          <input
-            placeholder="Enter Your Name"
-            type="text"
-            className="contact__form-input"
-            name="name"
-            id="name"
-          />
-          <label className={"contact__form-label"}>Name</label>
-          <input
-            placeholder="Enter Your Name"
-            type="text"
-            className="contact__form-input"
-            name="name"
-            id="name"
-          />
-        </div>
-      </div>
+        <TextField label="Full Name" type="text" id="name" />
+        <TextField label="Email" type="text" id="email" />
+        <TextField label="Phone Number" type="text" id="phone-number" />
+        <Button variant="contained" style={{ width: "5rem", alignSelf: "end" }}>
+          Submit
+        </Button>
+      </Stack>
     </Stack>
   );
 };

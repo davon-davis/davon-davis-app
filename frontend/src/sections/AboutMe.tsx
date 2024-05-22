@@ -1,14 +1,37 @@
 import { Grid, Stack, Typography } from "@mui/material";
 
 export const AboutMe = () => {
+  const skills = [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Flyway",
+    "TypeScript",
+    "React",
+    "Git",
+    "GitHub",
+    "Java",
+    "Spring",
+    "Knex",
+    "Docker",
+  ];
+
+  const renderSkills = () => {
+    return skills.map((skill, index) => (
+      <div key={index} className="skills">
+        {skill}
+      </div>
+    ));
+  };
+
   return (
     <Stack
       id="aboutMeSection"
-      className={"flex flex-col px-20"}
       style={{
         height: "100%",
-        padding: "7rem 0rem",
-        margin: "0 5rem",
+        padding: "12rem 0rem",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
       <Typography
@@ -17,13 +40,13 @@ export const AboutMe = () => {
       >
         ABOUT ME
       </Typography>
-      <Typography style={{ paddingBottom: "2rem", textAlign: "center" }}>
+      <Typography style={{ paddingBottom: "4rem", textAlign: "center" }}>
         Here you will find more information about me, what I do, and my current
         skills mostly in terms of programming and technology
       </Typography>
-      <Grid container spacing={5} xs={12}>
+      <Grid container spacing={1} xs={12} style={{ height: "100%" }}>
         <Grid item xs={12} md={6}>
-          <Typography variant="h5" pb={2}>
+          <Typography variant="h4" pb={2}>
             Get to know me!
           </Typography>
           <div>
@@ -48,24 +71,11 @@ export const AboutMe = () => {
             </Typography>
           </div>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} style={{ textAlign: "center" }}>
           <Typography variant="h4" py="2rem">
             My Skills
           </Typography>
-          <div className={"flex flex-wrap"}>
-            <div className={"skills"}>HTML</div>
-            <div className={"skills"}>CSS</div>
-            <div className={"skills"}>JavaScript</div>
-            <div className={"skills"}>Flyway</div>
-            <div className={"skills"}>TypeScript</div>
-            <div className={"skills"}>React</div>
-            <div className={"skills"}>Git</div>
-            <div className={"skills"}>GitHub</div>
-            <div className={"skills"}>Java</div>
-            <div className={"skills"}>Spring</div>
-            <div className={"skills"}>Knex</div>
-            <div className={"skills"}>Docker</div>
-          </div>
+          <div className={"flex flex-wrap"}>{renderSkills()}</div>
         </Grid>
       </Grid>
     </Stack>

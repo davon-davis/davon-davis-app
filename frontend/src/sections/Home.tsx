@@ -8,6 +8,7 @@ export const Home = () => {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
+        textAlign: "center",
       }}
     >
       <Typography
@@ -16,10 +17,7 @@ export const Home = () => {
       >
         Hello! I'm <span className="text-yellow-400">Davon Davis</span>
       </Typography>
-      <Typography
-        className={"heading-sec_sub"}
-        style={{ margin: "0 5rem 0 5rem" }}
-      >
+      <Typography>
         A Frontend focused Web Developer building the Frontend of Websites and
         Web Applications that leads to the success of the overall product.
       </Typography>
