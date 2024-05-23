@@ -22,10 +22,9 @@ export const Contact = () => {
 
   const sendEmail = (data: any) => {
     const { fromName, userEmail, message } = data;
-
-    const serviceID = "service_q594uaq";
-    const templateID = "personal_contact_form";
-    const userID = "xbkvfaJjamU7yIJOy";
+    const serviceID = import.meta.env.VITE_SERVICE_ID;
+    const templateID = import.meta.env.VITE_TEMPLATE_ID;
+    const userID = import.meta.env.VITE_EMAILJS_USER_ID;
 
     const templateParams = {
       from_name: fromName,

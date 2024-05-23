@@ -44,7 +44,7 @@ export const AboutMe = () => {
         Here you will find more information about me, what I do, and my current
         skills mostly in terms of programming and technology
       </Typography>
-      <Grid container spacing={1} xs={12} style={{ height: "100%" }}>
+      <Grid container spacing={1} style={{ height: "100%" }}>
         <Grid item xs={12} md={6}>
           <Typography variant="h4" pb={2}>
             Get to know me!
