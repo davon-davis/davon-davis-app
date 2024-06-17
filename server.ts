@@ -1,23 +1,36 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
+import express, { Request, Response } from "express";
+import cors from "cors";
+import dontenv from "dotenv";
+import nodemailer from "nodemailer";
+import { sendEmail } from "./backend/emailService";
+
+dontenv.config();
 
 const app = express();
-const PORT: string | number = process.env.PORT || 3003;
 
-// Configure CORS to accept requests from your frontend domain
-app.use(cors({
-    origin: 'https://d642hegmyoch1.cloudfront.net' // Update this to your CloudFront domain or custom domain
-}));
+app.use(
+  cors({
+    origin: "https://d642hegmyoch1.cloudfront.net", // Update this to your CloudFront domain or custom domain
+  }),
+);
 
 app.use(express.json());
 
-// Define your API routes
-app.get('/', (req: Request, res: Response) => {
-    res.json({ message: "Hello Davon!" });
+app.post("/api/email", async (req, res) => {
+  try {
+    await sendEmail(req.body);
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to hit api " + error });
+  }
 });
 
-// No need to serve static files here, so the express.static middleware is removed
+app.get("/", (req: Request, res: Response) => {
+  res.json({ message: "Hello Davon!" });
+});
 
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+const PORT = process.env.PORT || 8080;
+export const server = app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log("Press Ctrl+C to quit.");
 });

@@ -7,8 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { Controller, useForm } from "react-hook-form";
+import { submitEmail } from "@/api/emailApi.ts";
+
+export type ContactType = {
+  fromName: string;
+  userEmail: string;
+  message: string;
+};
 
 export const Contact = () => {
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
@@ -20,28 +26,19 @@ export const Contact = () => {
     formState: { errors },
   } = useForm();
 
-  const sendEmail = (data: any) => {
+  const sendEmail = async (data: any) => {
     const { fromName, userEmail, message } = data;
-    const serviceID = import.meta.env.VITE_SERVICE_ID;
-    const templateID = import.meta.env.VITE_TEMPLATE_ID;
-    const userID = import.meta.env.VITE_EMAILJS_USER_ID;
 
-    const templateParams = {
-      from_name: fromName,
-      user_email: userEmail,
-      message: message,
+    const templateParams: ContactType = {
+      fromName,
+      userEmail,
+      message,
     };
 
-    emailjs
-      .send(serviceID, templateID, templateParams, userID)
-      .then(() => {
-        setIsSnackbarOpen(true);
-      })
-      .catch((err) => {
-        console.error("Failed to send email.", err);
-      });
-
-    reset();
+    await submitEmail(templateParams).then(() => {
+      setIsSnackbarOpen(true);
+      reset();
+    });
   };
 
   return (
